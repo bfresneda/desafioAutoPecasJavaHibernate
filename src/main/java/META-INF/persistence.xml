@@ -10,17 +10,13 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 		<class>Peca.java</class>
 		<class>Venda.java</class>
 		<properties>
-			<property name="javax.persistence.jdbc.driver"
-				value="org.postgresql.Driver" />
-			<property name="javax.persistence.jdbc.url"
-				value="jdbc:postgresql://127.0.0.1:5432/DbDesafioJava"/>
-			<property name="
-				javax.persistence.jdbc.user " value="postgres" />
-			<property name="javax.persistence.jdbc.password"
-				value="bruno123" />
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+			<property name="javax.persistence.jdbc.url"	value="jdbc:postgresql://127.0.0.1:5432/DbDesafioJava"/>
+			<property name="javax.persistence.jdbc.user " value="postgres" />
+			<property name="javax.persistence.jdbc.password" value="bruno123" />
+			
 			<property name="hibernate.default_schema" value="autopecas"/>
-			<property name="hibernate.dialect"
-				value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.show_sql" value="false"/>
 			<property name="hibernate.format_sql" value="true"/>
 		    <property name="hibernate.hbm2ddl.auto" value="update"/> 

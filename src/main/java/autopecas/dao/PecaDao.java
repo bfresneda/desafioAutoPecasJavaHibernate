@@ -1,16 +1,12 @@
 package autopecas.dao;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
-import java.util.concurrent.ThreadLocalRandom;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-
-import org.hibernate.internal.build.AllowSysOut;
 
 import autopecas.pojo.Peca;
 
@@ -27,13 +23,6 @@ public class PecaDao {
 		
 	}
 
-	
-//	Random random = new Random();
-//	int codigoDeBarrasAleatorio = random.nextInt(999999999);
-//	
-//	
-	
-	
 	Scanner entrada = new Scanner(System.in);
 	Peca novaPeca = new Peca();
 	
@@ -46,7 +35,6 @@ public class PecaDao {
 		System.out.println("|                                   |");
 		System.out.println("|        INSIRA UMA NOVA PEÇA       |");
 		System.out.println("|___________________________________|");
-//		novaPeca.setCodigoDeBarras(codigoDeBarrasAleatorio);
 		System.out.print("Codigo de barras:");
 		novaPeca.setCodigoDeBarras(entrada.nextInt());
 		entrada.nextLine();
@@ -70,7 +58,7 @@ public class PecaDao {
 			em.getTransaction().begin();
 			em.persist(novaPeca);
 			em.getTransaction().commit();
-			em.close();
+//			// em.close();
 			
 		} catch (Exception e) {
 			System.err.println("Erro ao criar uma nova peça");
@@ -166,7 +154,7 @@ public class PecaDao {
 				em.getTransaction().begin();
 				em.merge(atualizaPeca);
 				em.getTransaction().commit();
-				em.close();
+				// em.close();
 				System.out.println("Peca atualizada com sucesso.");
 				
 				
@@ -180,6 +168,29 @@ public class PecaDao {
 		} while (opcaoAtt != 0);
 		
 		return true;
+	}
+	
+	public boolean alteraEstoque(int codigoDeBarras, int quantidade) {
+		
+		System.out.println("entrei no metodo alteraEstoque");
+		System.out.println("valor recebido " + codigoDeBarras +" "+ quantidade);
+		try {
+			Peca atualizaPeca = em.find(Peca.class, codigoDeBarras);
+			atualizaPeca.setQuantidadeEstoque(quantidade);
+			
+			em.getTransaction().begin();
+			em.merge(atualizaPeca);
+			em.getTransaction().commit();
+			// em.close();
+			System.out.printf("Produto atualizado no estoque quantidade atual %d",novaPeca.getQuantidadeEstoque());
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			return false;
+		}
+		return true;
+		
 	}
 		
 	public boolean removePeca(Scanner entrada) {
@@ -200,7 +211,7 @@ public class PecaDao {
 			em.getTransaction().begin();
 			em.remove(removePeca);
 			em.getTransaction().commit();
-			em.close();
+			// em.close();
 			System.out.printf("Peça $d, %s removida com sucesso", removePeca.getCodigoDeBarras(), removePeca.getNome());
 			
 		} catch (Exception e) {
@@ -213,6 +224,7 @@ public class PecaDao {
 	
 	public Peca consultaPeca(int codigoDeBarras) {
 		Peca novaPeca = em.find(Peca.class, codigoDeBarras);
+		// em.close();
 		return novaPeca;
 	}
 	

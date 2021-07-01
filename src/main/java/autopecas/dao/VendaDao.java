@@ -19,7 +19,6 @@ public class VendaDao {
 	
 	private EntityManager em;
 	private List<Venda> vendas;
-//	private PecaDao pecaDao;
 	
 	Scanner entrada = new Scanner(System.in);
 	
@@ -69,25 +68,19 @@ public class VendaDao {
 				
 				int codBarConsulta = codigoDeBarras;
 				novaVenda.setQuantidade(quantidade);
-				int item = 0;
-				
 				
 				novaPecaVenda = pecaDao.consultaPeca(codBarConsulta);
-//				@SuppressWarnings("rawtypes")
-//				List<Comparable> listaVendaPecas = new ArrayList<Comparable>();
 
-//				System.out.printf(novaPecaVenda.getQuantidadeEstoque() + " quantidade em estoque\n");
-//				System.out.println(novaVenda.getQuantidade() + " quantidade pedido");
 				if(novaVenda.getQuantidade() <= novaPecaVenda.getQuantidadeEstoque()) {
 					totalPecas = quantidade * (float) novaPecaVenda.getPrecoVenda();
 					novaVenda.setTotalVenda(novaVenda.getTotalVenda() + totalPecas);
 					System.out.printf("Total venda R$%.2f \n",novaVenda.getTotalVenda());
-//					listaVendaPecas.add(novaPecaVenda.getCodigoDeBarras());
-//					listaVendaPecas.add(novaPecaVenda.getNome());
-//					listaVendaPecas.add(novaPecaVenda.getPrecoVenda());
-//					listaVendaPecas.add(quantidade);
-//					listaVendaPecas.add(totalPeca);	
 					
+					System.out.println("valor no get codigoDeBarras "+ novaPecaVenda.getCodigoDeBarras());
+					System.out.println("valor no get quantidade " + (novaPecaVenda.getQuantidadeEstoque() - quantidade));
+					
+					pecaDao.alteraEstoque(novaPecaVenda.getCodigoDeBarras(), (novaPecaVenda.getQuantidadeEstoque() - quantidade));
+
 					try {
 						FileWriter fw = new FileWriter(file,true);//append true pra adicionar ao final do arquivo
 						BufferedWriter br = new BufferedWriter(fw);
@@ -97,15 +90,14 @@ public class VendaDao {
 						br.write(novaPecaVenda.getPrecoVenda() + " | ");
 						br.write(quantidade + " | ");
 						br.write(totalPecas + " | \n");
-//						br.write(novaVenda.getTotalVenda() + " | ");
 						br.write("-----------------------------------------------------------------------------");
 						br.newLine();
 						br.flush();
 						br.close();
+						
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					
 				}else {
 					System.out.printf("quantidade em estoque atual %d peças \n",novaPecaVenda.getQuantidadeEstoque());
 				}
